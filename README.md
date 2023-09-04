@@ -1,4 +1,4 @@
 # DB
-Course:Database System
-Professor:Pecu Tsai
+Course:Database System 
+Professor:Pecu Tsai 
 # Homework
