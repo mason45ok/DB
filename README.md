@@ -4,5 +4,6 @@
 * Professor:Pecu Tsai</strong></em>
 # :page_facing_up: Homework
 > [#HW0](https://youtu.be/SnuzbTM76Zo)  
-> [#HW1](https://youtu.be/i7UKnYl19Ic)
+> [#HW1](https://youtu.be/i7UKnYl19Ic)  
+> [#HW2](https://youtu.be/jxMI68Kicy4)
 # :file_folder: Program
