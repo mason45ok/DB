@@ -134,3 +134,32 @@ app.delete("/deleteStudent/:id", (req, res) => {
     }
   });
 });
+app.get("/searchstudent", (req, res) => {
+  const searchQuery = req.query.search || "";
+
+  const sqlQuery = `
+  SELECT 
+    students.student_name,
+    student_courses.course_id,
+    courses.course_name
+    FROM student_courses
+    INNER JOIN students ON students.student_id = student_courses.student_id
+    INNER JOIN courses ON student_courses.course_id = courses.course_id
+    WHERE students.student_name LIKE ?
+    OR student_courses.course_id LIKE ?
+    OR courses.course_name LIKE ?
+   `;
+
+  db.query(
+    sqlQuery,
+    [`%${searchQuery}%`, `%${searchQuery}%`, `%${searchQuery}%`],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Error fetching search results");
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});

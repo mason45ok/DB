@@ -16,6 +16,8 @@ function App() {
   const [editStudentId, setEditStudentId] = useState("");
   const [editStudentName, setEditStudentName] = useState("");
 
+  const [searchQuery, setSearchQuery] = useState(""); // State for the search query
+  const [searchResults, setSearchResults] = useState([]); // State to store search results
   useEffect(() => {
     getCourseList();
     getStudentList();
@@ -112,7 +114,13 @@ function App() {
       getStudentList(); // 删除后刷新学生列表
     });
   };
-
+  const searchstudent = () => {
+    Axios.get(`http://localhost:3001/searchstudent?search=${searchQuery}`).then(
+      (response) => {
+        setSearchResults(response.data);
+      }
+    );
+  };
   return (
     <div className="App">
       <div className="information">
@@ -154,6 +162,29 @@ function App() {
           />
           <button onClick={addStudent}>Add Student</button>
         </div>
+      </div>
+      <div className="search">
+        <label>Search student:</label>
+        <input
+          type="text"
+          onChange={(event) => {
+            setSearchQuery(event.target.value);
+          }}
+        />
+        <button onClick={searchstudent}>Search</button>
+      </div>
+
+      {/* Display search results */}
+      <div className="search-results">
+        {searchResults.map((result, index) => {
+          return (
+            <div className="search-result" key={index}>
+              {/* <p>Username: {result.user_name}</p> */}
+              <p>course_id: {result.course_id}</p>
+              <p>course_name: {result.course_name}</p>
+            </div>
+          );
+        })}
       </div>
       <div className="courses">
         <button onClick={getCourseList}>Show Courses</button>
