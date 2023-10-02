@@ -74,3 +74,38 @@ app.get("/students", (req, res) => {
 app.listen(3001, () => {
   console.log("Yey, your server is running on port 3001");
 });
+// 更新课程
+app.put("/updateCourse", (req, res) => {
+  const course_id = req.body.course_id;
+  const course_name = req.body.course_name;
+
+  db.query(
+    "UPDATE courses SET course_name = ? WHERE course_id = ?",
+    [course_name, course_id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send("Course Updated");
+      }
+    }
+  );
+});
+
+// 更新学生
+app.put("/updateStudent", (req, res) => {
+  const student_id = req.body.student_id;
+  const student_name = req.body.student_name;
+
+  db.query(
+    "UPDATE students SET student_name = ? WHERE student_id = ?",
+    [student_name, student_id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send("Student Updated");
+      }
+    }
+  );
+});

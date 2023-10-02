@@ -11,6 +11,11 @@ function App() {
   const [courseList, setCourseList] = useState([]);
   const [studentList, setStudentList] = useState([]);
 
+  const [editCourseId, setEditCourseId] = useState("");
+  const [editCourseName, setEditCourseName] = useState("");
+  const [editStudentId, setEditStudentId] = useState("");
+  const [editStudentName, setEditStudentName] = useState("");
+
   useEffect(() => {
     getCourseList();
     getStudentList();
@@ -28,6 +33,9 @@ function App() {
           course_name: course_name,
         },
       ]);
+      // 清空输入框
+      setCourse_id("");
+      setCourse_name("");
     });
   };
 
@@ -49,12 +57,47 @@ function App() {
           student_name: student_name,
         },
       ]);
+      // 清空输入框
+      setStudent_id("");
+      setStudent_name("");
     });
   };
 
   const getStudentList = () => {
     Axios.get("http://localhost:3001/students").then((response) => {
       setStudentList(response.data);
+    });
+  };
+
+  const editCourse = (course) => {
+    setEditCourseId(course.course_id);
+    setEditCourseName(course.course_name);
+  };
+
+  const updateCourse = () => {
+    Axios.put("http://localhost:3001/updateCourse", {
+      course_id: editCourseId,
+      course_name: editCourseName,
+    }).then(() => {
+      getCourseList();
+      setEditCourseId("");
+      setEditCourseName("");
+    });
+  };
+
+  const editStudent = (student) => {
+    setEditStudentId(student.student_id);
+    setEditStudentName(student.student_name);
+  };
+
+  const updateStudent = () => {
+    Axios.put("http://localhost:3001/updateStudent", {
+      student_id: editStudentId,
+      student_name: editStudentName,
+    }).then(() => {
+      getStudentList();
+      setEditStudentId("");
+      setEditStudentName("");
     });
   };
 
@@ -65,6 +108,7 @@ function App() {
           <label>Course ID:</label>
           <input
             type="text"
+            value={course_id}
             onChange={(event) => {
               setCourse_id(event.target.value);
             }}
@@ -72,6 +116,7 @@ function App() {
           <label>Course Name:</label>
           <input
             type="text"
+            value={course_name}
             onChange={(event) => {
               setCourse_name(event.target.value);
             }}
@@ -82,6 +127,7 @@ function App() {
           <label>Student ID:</label>
           <input
             type="text"
+            value={student_id}
             onChange={(event) => {
               setStudent_id(event.target.value);
             }}
@@ -89,6 +135,7 @@ function App() {
           <label>Student Name:</label>
           <input
             type="text"
+            value={student_name}
             onChange={(event) => {
               setStudent_name(event.target.value);
             }}
@@ -105,6 +152,22 @@ function App() {
                 <h3>Course ID: {course.course_id}</h3>
                 <h3>Course Name: {course.course_name}</h3>
               </div>
+              <div>
+                {/* 添加 "Edit" 和 "Update" 按钮 */}
+                <button onClick={() => editCourse(course)}>Edit</button>
+                {editCourseId === course.course_id && (
+                  <div>
+                    <input
+                      type="text"
+                      value={editCourseName}
+                      onChange={(event) => {
+                        setEditCourseName(event.target.value);
+                      }}
+                    />
+                    <button onClick={updateCourse}>Update</button>
+                  </div>
+                )}
+              </div>
             </div>
           );
         })}
@@ -117,6 +180,22 @@ function App() {
               <div>
                 <h3>Student ID: {student.student_id}</h3>
                 <h3>Student Name: {student.student_name}</h3>
+              </div>
+              <div>
+                {/* 添加 "Edit" 和 "Update" 按钮 */}
+                <button onClick={() => editStudent(student)}>Edit</button>
+                {editStudentId === student.student_id && (
+                  <div>
+                    <input
+                      type="text"
+                      value={editStudentName}
+                      onChange={(event) => {
+                        setEditStudentName(event.target.value);
+                      }}
+                    />
+                    <button onClick={updateStudent}>Update</button>
+                  </div>
+                )}
               </div>
             </div>
           );
