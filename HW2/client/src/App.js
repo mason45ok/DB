@@ -85,6 +85,12 @@ function App() {
     });
   };
 
+  const deleteCourse = (courseId) => {
+    Axios.delete(`http://localhost:3001/deleteCourse/${courseId}`).then(() => {
+      getCourseList(); // 删除后刷新课程列表
+    });
+  };
+
   const editStudent = (student) => {
     setEditStudentId(student.student_id);
     setEditStudentName(student.student_name);
@@ -98,6 +104,12 @@ function App() {
       getStudentList();
       setEditStudentId("");
       setEditStudentName("");
+    });
+  };
+
+  const deleteStudent = (studentId) => {
+    Axios.delete(`http://localhost:3001/deleteStudent/${studentId}`).then(() => {
+      getStudentList(); // 删除后刷新学生列表
     });
   };
 
@@ -155,6 +167,7 @@ function App() {
               <div>
                 {/* 添加 "Edit" 和 "Update" 按钮 */}
                 <button onClick={() => editCourse(course)}>Edit</button>
+                <button onClick={() => deleteCourse(course.course_id)}>Delete</button>
                 {editCourseId === course.course_id && (
                   <div>
                     <input
@@ -184,6 +197,7 @@ function App() {
               <div>
                 {/* 添加 "Edit" 和 "Update" 按钮 */}
                 <button onClick={() => editStudent(student)}>Edit</button>
+                <button onClick={() => deleteStudent(student.student_id)}>Delete</button>
                 {editStudentId === student.student_id && (
                   <div>
                     <input

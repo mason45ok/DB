@@ -109,3 +109,28 @@ app.put("/updateStudent", (req, res) => {
     }
   );
 });
+// 删除课程
+app.delete("/deleteCourse/:id", (req, res) => {
+  const courseId = req.params.id;
+
+  db.query("DELETE FROM courses WHERE course_id = ?", courseId, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send("Course Deleted");
+    }
+  });
+});
+
+// 删除学生
+app.delete("/deleteStudent/:id", (req, res) => {
+  const studentId = req.params.id;
+
+  db.query("DELETE FROM students WHERE student_id = ?", studentId, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send("Student Deleted");
+    }
+  });
+});
