@@ -93,25 +93,42 @@ app.get("/students", async (req, res) => {
   }
 });
 // 更新課程
-app.put("/updateCourse/:id", async (req, res) => {
-    const courseId = req.params.id;
-    const { course_name } = req.body;
+// app.put("/updateCourse/:id", async (req, res) => {
+//     const courseId = req.params.id;
+//     const { course_name } = req.body;
   
-    try {
-      const course = await Course.findbyIdAndUpdate(
-        { id: courseId },
-        { course_name },
-        { new: true } // 這將返回更新後的課程
-      );
+//     try {
+//       const course = await Course.findbyIdAndUpdate(
+//         { _id: courseId },
+//         { course_name },
+//         { new: true } // 這將返回更新後的課程
+//       );
   
-      res.send(course);
-    } catch (error) {
-      console.error("更新課程時發生錯誤:", error);
-      res.status(500).send("Error updating course");
-    }
-  });
+//       res.send(course);
+//     } catch (error) {
+//       console.error("更新課程時發生錯誤:", error);
+//       res.status(500).send("Error updating course");
+//     }
+//   });
+app.put("/updateCourse/:id", (req, res) => {
+  const courseId = req.params.id;
+  const updatedCourseData = req.body;
+
+  Course.findbyIdAndUpdate(courseId, updatedCourseData, { new: true })
+    .then((updateCourse) => {
+      if (!updateCourse) {
+        return res.status(404).send("Course not found");
+      }
+      res.send(updateCourse);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error updating Course");
+    });
+});
   
-  // 更新學生
+
+// 更新學生
   app.put("/updateStudent/:id", async (req, res) => {
     const studentId = req.params.id;
     const { student_name } = req.body;
@@ -130,19 +147,18 @@ app.put("/updateCourse/:id", async (req, res) => {
     }
   });
 // 刪除課程
-app.delete("/deleteCourse/:id", async (req, res) => {
-  const courseId = req.params.id;
+// app.delete("/deleteCourse/:id", async (req, res) => {
+//   const courseId = req.params.id;
 
-  try {
-    // 不需要將字符串轉換為ObjectId，因為Mongoose可以處理
-    await Course.findByIdAndRemove(courseId);
-    res.send("Course Deleted");
-  } catch (error) {
-    console.error("刪除課程時發生錯誤:", error);
-    res.status(500).send("Error deleting course");
-  }
-});
-
+//   try {
+//     // 不需要將字符串轉換為ObjectId，因為Mongoose可以處理
+//     await Course.findByIdAndRemove(courseId);
+//     res.send("Course Deleted");
+//   } catch (error) {
+//     console.error("刪除課程時發生錯誤:", error);
+//     res.status(500).send("Error deleting course");
+//   }
+// });
 // 刪除學生
 app.delete("/deleteStudent/:id", async (req, res) => {
   const studentId = req.params.id;
