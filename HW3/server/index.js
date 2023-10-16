@@ -2,12 +2,13 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
+const ObjectId = mongoose.Types.ObjectId;
 
 app.use(cors());
 app.use(express.json());
 
 // 連接至 MongoDB
-mongoose.connect("mongodb://localhost:27017/student-course", {
+mongoose.connect("mongodb+srv://41171112h:tahrd115@cluster0.etdqrs3.mongodb.net/?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -129,31 +130,33 @@ app.put("/updateCourse/:id", async (req, res) => {
     }
   });
 // 刪除課程
+  // 刪除課程
 app.delete("/deleteCourse/:id", async (req, res) => {
-    const courseId = req.params.id;
-  
-    try {
-      await Course.findByIdAndRemove(courseId);
-      res.send("Course Deleted");
-    } catch (error) {
-      console.error("刪除課程時發生錯誤:", error);
-      res.status(500).send("Error deleting course");
-    }
-  });
-  
-  // 刪除學生
-  app.delete("/deleteStudent/:id", async (req, res) => {
-    const studentId = req.params.id;
-  
-    try {
-      await Student.findByIdAndRemove(studentId);
-      res.send("Student Deleted");
-    } catch (error) {
-      console.error("刪除學生時發生錯誤:", error);
-      res.status(500).send("Error deleting student");
-    }
-  });
-    
+  const courseId = req.params.id;
+
+  try {
+    // 不需要將字符串轉換為ObjectId，因為Mongoose可以處理
+    await Course.findByIdAndRemove(courseId);
+    res.send("Course Deleted");
+  } catch (error) {
+    console.error("刪除課程時發生錯誤:", error);
+    res.status(500).send("Error deleting course");
+  }
+});
+
+// 刪除學生
+app.delete("/deleteStudent/:id", async (req, res) => {
+  const studentId = req.params.id;
+
+  try {
+    // 不需要將字符串轉換為ObjectId，因為Mongoose可以處理
+    await Student.findByIdAndRemove(studentId);
+    res send("Student Deleted");
+  } catch (error) {
+    console.error("刪除學生時發生錯誤:", error);
+    res.status(500).send("Error deleting student");
+  }
+});  
 app.listen(3001, () => {
   console.log("你的伺服器運行在埠3001上");
 });
