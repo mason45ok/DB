@@ -98,8 +98,8 @@ app.put("/updateCourse/:id", async (req, res) => {
     const { course_name } = req.body;
   
     try {
-      const course = await Course.findOneAndUpdate(
-        { _id: courseId },
+      const course = await Course.findbyIdAndUpdate(
+        { id: courseId },
         { course_name },
         { new: true } // 這將返回更新後的課程
       );
@@ -117,8 +117,8 @@ app.put("/updateCourse/:id", async (req, res) => {
     const { student_name } = req.body;
   
     try {
-      const student = await Student.findOneAndUpdate(
-        { _id: studentId },
+      const student = await Student.findbyIdAndUpdate(
+        { id: studentId },
         { student_name },
         { new: true } // 這將返回更新後的學生
       );
@@ -130,7 +130,6 @@ app.put("/updateCourse/:id", async (req, res) => {
     }
   });
 // 刪除課程
-  // 刪除課程
 app.delete("/deleteCourse/:id", async (req, res) => {
   const courseId = req.params.id;
 
@@ -151,7 +150,7 @@ app.delete("/deleteStudent/:id", async (req, res) => {
   try {
     // 不需要將字符串轉換為ObjectId，因為Mongoose可以處理
     await Student.findByIdAndRemove(studentId);
-    res send("Student Deleted");
+    res.send("Student Deleted");
   } catch (error) {
     console.error("刪除學生時發生錯誤:", error);
     res.status(500).send("Error deleting student");
