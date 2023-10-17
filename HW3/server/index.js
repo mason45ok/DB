@@ -71,50 +71,33 @@ app.post("/createStudent", async (req, res) => {
   }
 });
 
-// 获取课程列表
-app.get("/courses", async (req, res) => {
-  try {
-    const courses = await Course.find({});
-    res.send(courses);
-  } catch (error) {
-    console.error("獲取課程列表時發生錯誤:", error);
-    res.status(500).send("Error fetching courses");
-  }
-});
+// 獲得課程列表
+  app.get("/courses", async (req, res) => {
+    try {
+      const courses = await Course.find({});
+      res.send(courses);
+    } catch (error) {
+      console.error("獲取課程列表時發生錯誤:", error);
+      res.status(500).send("Error fetching courses");
+    }
+  });
 
-// 获取学生列表
-app.get("/students", async (req, res) => {
-  try {
-    const students = await Student.find({});
-    res.send(students);
-  } catch (error) {
-    console.error("獲取學生列表時發生錯誤:", error);
-    res.status(500).send("Error fetching students");
-  }
-});
-// 更新課程
-// app.put("/updateCourse/:id", async (req, res) => {
-//     const courseId = req.params.id;
-//     const { course_name } = req.body;
-  
-//     try {
-//       const course = await Course.findbyIdAndUpdate(
-//         { _id: courseId },
-//         { course_name },
-//         { new: true } // 這將返回更新後的課程
-//       );
-  
-//       res.send(course);
-//     } catch (error) {
-//       console.error("更新課程時發生錯誤:", error);
-//       res.status(500).send("Error updating course");
-//     }
-//   });
+// 獲得學生列表
+  app.get("/students", async (req, res) => {
+    try {
+      const students = await Student.find({});
+      res.send(students);
+    } catch (error) {
+      console.error("獲取學生列表時發生錯誤:", error);
+      res.status(500).send("Error fetching students");
+    }
+  });
+//更新課程
 app.put("/updateCourse/:id", (req, res) => {
-  const courseId = req.params.id;
+  const courseId = req.params.id; // 使用正確的路由參數名稱 "id"
   const updatedCourseData = req.body;
 
-  Course.findbyIdAndUpdate(courseId, updatedCourseData, { new: true })
+  Course.findByIdAndUpdate(courseId, updatedCourseData, { new: true }) // 使用findByIdAndUpdate
     .then((updateCourse) => {
       if (!updateCourse) {
         return res.status(404).send("Course not found");
@@ -126,39 +109,37 @@ app.put("/updateCourse/:id", (req, res) => {
       res.status(500).send("Error updating Course");
     });
 });
-  
 
 // 更新學生
-  app.put("/updateStudent/:id", async (req, res) => {
-    const studentId = req.params.id;
-    const { student_name } = req.body;
-  
-    try {
-      const student = await Student.findbyIdAndUpdate(
-        { id: studentId },
-        { student_name },
-        { new: true } // 這將返回更新後的學生
-      );
-  
-      res.send(student);
-    } catch (error) {
-      console.error("更新學生時發生錯誤:", error);
-      res.status(500).send("Error updating student");
-    }
-  });
-// 刪除課程
-// app.delete("/deleteCourse/:id", async (req, res) => {
-//   const courseId = req.params.id;
+app.put("/updateStudent/:id", (req, res) => {
+  const studentId = req.params.id;
+  const updatedStudentData = req.body;
 
-//   try {
-//     // 不需要將字符串轉換為ObjectId，因為Mongoose可以處理
-//     await Course.findByIdAndRemove(courseId);
-//     res.send("Course Deleted");
-//   } catch (error) {
-//     console.error("刪除課程時發生錯誤:", error);
-//     res.status(500).send("Error deleting course");
-//   }
-// });
+  Student.findByIdAndUpdate(studentId, updatedStudentData, { new: true })
+    .then((updatedStudent) => {
+      if (!updatedStudent) {
+        return res.status(404).send("Student not found");
+      }
+      res.send(updatedStudent);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error updating Student");
+    });
+});
+//刪除課程
+app.delete("/deleteCourse/:id", async (req, res) => {
+  const courseId = req.params.id;
+
+  try {
+    // 不需要將字符串轉換為ObjectId，因為Mongoose可以處理
+    await Course.findByIdAndRemove(courseId);
+    res.send("Course Deleted");
+  } catch (error) {
+    console.error("刪除課程時發生錯誤:", error);
+    res.status(500).send("Error deleting course");
+  }
+});
 // 刪除學生
 app.delete("/deleteStudent/:id", async (req, res) => {
   const studentId = req.params.id;

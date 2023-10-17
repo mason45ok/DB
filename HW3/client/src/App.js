@@ -58,7 +58,7 @@ function App() {
   };
 
   const editCourse = (course) => {
-    setEditCourseId(course.course_id);
+    setEditCourseId(course._id);
     setEditCourseName(course.course_name);
   };
 
@@ -79,7 +79,7 @@ function App() {
   };
 
   const editStudent = (student) => {
-    setEditStudentId(student.student_id);
+    setEditStudentId(student._id);
     setEditStudentName(student.student_name);
   };
 
@@ -161,8 +161,8 @@ function App() {
               <div>
                 {/* 添加 "Edit" 和 "Update" 按钮 */}
                 <button onClick={() => editCourse(course)}>Edit</button>
-                <button onClick={() => deleteCourse(course.course_id)}>Delete</button>
-                {editCourseId === course.course_id && (
+                <button onClick={() => deleteCourse(course._id)}>Delete</button>
+                {editCourseId === course._id && (
                   <div>
                     <input
                       type="text"
@@ -191,8 +191,8 @@ function App() {
               <div>
                 {/* 添加 "Edit" 和 "Update" 按钮 */}
                 <button onClick={() => editStudent(student)}>Edit</button>
-                <button onClick={() => deleteStudent(student.student_id)}>Delete</button>
-                {editStudentId === student.student_id && (
+                <button onClick={() => deleteStudent(student._id)}>Delete</button>
+                {editStudentId === student._id && (
                   <div>
                     <input
                       type="text"
