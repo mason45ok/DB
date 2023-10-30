@@ -111,7 +111,7 @@ function App() {
     })
     .catch((error) => {
       console.error(error);
-      setErrorMessage("An error occurred while searching for buyers");
+      setErrorMessage("An error occurred while searching for Student");
       setSearchResults([]); // Clear search results in case of an error
     });
 };

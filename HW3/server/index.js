@@ -155,9 +155,9 @@ app.delete("/deleteStudent/:id", async (req, res) => {
 });
 app.get("/searchStudent", (req, res) => {
   const parsedUrl = req._parsedUrl.query;
-
   const inputString = parsedUrl;
   const match = inputString.match(/search=(.+)/);
+  //console.log(match)
   const extractedValue = match ? match[1] : null;
 
  // console.log(extractedValue);
