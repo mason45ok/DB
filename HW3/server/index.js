@@ -152,6 +152,25 @@ app.delete("/deleteStudent/:id", async (req, res) => {
     console.error("刪除學生時發生錯誤:", error);
     res.status(500).send("Error deleting student");
   }
+});
+app.get("/searchStudent", (req, res) => {
+  const parsedUrl = req._parsedUrl.query;
+
+  const inputString = parsedUrl;
+  const match = inputString.match(/search=(.+)/);
+  const extractedValue = match ? match[1] : null;
+
+ // console.log(extractedValue);
+  
+  const studentname = extractedValue;
+  Student.find({ student_name: { $regex: studentname, $options: "i" } }) // Case-insensitive search
+    .then((users) => {
+      res.send(users);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error searching for users by name");
+    });
 });  
 app.listen(3001, () => {
   console.log("你的伺服器運行在埠3001上");

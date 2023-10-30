@@ -15,9 +15,9 @@ function App() {
   const [editStudentId, setEditStudentId] = useState("");
   const [editStudentName, setEditStudentName] = useState("");
 
-  // const [searchQuery, setSearchQuery] = useState("");
-  // const [searchResults, setSearchResults] = useState([]);
-
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
   useEffect(() => {
     getCourseList();
     getStudentList();
@@ -99,13 +99,22 @@ function App() {
     });
   };
 
-  // const searchStudent = () => {
-  //   Axios.get(`http://localhost:3001/searchstudent?search=${searchQuery}`).then(
-  //     (response) => {
-  //       setSearchResults(response.data);
-  //     }
-  //   );
-  // };
+  const searchStudent = () => {
+    Axios.get(`http://localhost:3001/searchStudent?search=${searchQuery}`)
+    .then((response) => {
+      if (response.data.length === 0) {
+        setErrorMessage("No student found with the specified name");
+      } else {
+        setErrorMessage(""); // Clear any previous error message
+        setSearchResults(response.data);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      setErrorMessage("An error occurred while searching for buyers");
+      setSearchResults([]); // Clear search results in case of an error
+    });
+};
 
   return (
     <div className="App">
@@ -205,9 +214,34 @@ function App() {
                   </div>
                 )}
               </div>
-            </div>
+            </div> 
           );
         })}
+      </div>
+      <div className="search">
+        <h2>Search Student</h2>
+        <label>Search student:</label>
+        <input
+          type="text"
+          onChange={(event) => {
+            setSearchQuery(event.target.value);
+            //console.log(event.target.value);
+          }}
+        />
+        <button onClick={searchStudent}>Search</button>
+      </div>
+      <div className="search-results">
+        <h2>Search Results</h2>
+        {errorMessage ? (
+          <p>{errorMessage}</p>
+        ) : (
+          searchResults.map((result, index) => (
+            <div className="search-result" key={index}>
+              <p>Student name: {result.student_name}</p>
+              <p>Student ID: {result.student_id}</p>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
