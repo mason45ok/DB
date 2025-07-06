@@ -33,4 +33,10 @@ If *don't* have mongoose before:
 > [#HW3](https://youtu.be/k13Rc4UDeaU)  
 > [#HW4](https://youtu.be/CjbeSUIchsY)  
 > [#HW5](https://youtu.be/6A3VJJPla_Q)
-# :file_folder: Program
+# :file_folder: Program with MySQL & node.js
+[Final Project Github link](https://github.com/DBfp/DB_fp?tab=readme-ov-file)
+* 簡介:製作一個朋友間的修課查詢系統，能夠新增朋友，朋友間可以互相查詢對方選定的課程，同時可以刪除朋友，建立課程或是進行選課。
+* 提案及ERD-Map:[Youtube link](https://www.youtube.com/watch?v=HxzPlhvYYh4)
+* ERD-Map更改及課程匯入:[Youtube link](https://www.youtube.com/watch?v=cbuuMkLK1sw)
+* Search Function:[Youtube link](https://www.youtube.com/watch?v=d-j4gsbhNsA)
+* Final Project:[Youtube link](https://www.youtube.com/watch?v=6HQszu_cbws)
